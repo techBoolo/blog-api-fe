@@ -10,7 +10,11 @@ const config = {
 const signup = async (signupInfo) => {
   return await axios.post(`${url}/signup`, signupInfo, config)
 }
+const verifyToken = async (token) => {
+  return await axios.put(`${url}/verify`, token, config)
+}
 
 export default {
-  signup
+  signup,
+  verifyToken
 }

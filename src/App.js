@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Outlet } from 'react-router-dom'
 
 import postService from './services/post.js'
+import authorService from './services/author.js'
 import errorMessage from './utils/errorMessage.js'
 
 import CssBaseline from '@mui/material/CssBaseline'
@@ -15,9 +16,27 @@ import Container from '@mui/material/Container'
 
 import { fetchPosts } from './redux/reducers/postSlice.js'
 import { notify } from './redux/reducers/notificationSlice.js'
+import { loginFromStorage } from './redux/reducers/authorSlice.js'
 
 const App = () => {
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    const verifyToken = async () => {
+      const authorToken = window.localStorage.getItem('author')
+      if(authorToken) {
+        const response = await authorService.verifyToken({ authorToken })
+        const { data } = response
+        const userInfo = {
+          token: authorToken,
+          ...data
+        }
+        dispatch(loginFromStorage(userInfo))
+      }
+    }
+
+    verifyToken()
+  }, [])
 
   useEffect(() => {
     const getPosts = async () => {
@@ -32,6 +51,7 @@ const App = () => {
 
     getPosts()
   }, [])
+
   return (
     <>
       <CssBaseline />
