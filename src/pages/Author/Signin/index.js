@@ -56,12 +56,13 @@ const Signin = (props) => {
   }
   return (
     <Stack alignItems='center' mt={2} spacing={2}>
-      <Typography>Signin</Typography> 
+      <Typography variant='h6'>Signin</Typography> 
       <Stack component='form' onSubmit={handleSignin} spacing={1}>
         <TextField
           name='email'
           type='email'
           required
+          autoFocus
           size='small'
           label='Email'
           onChange={ handleTextChange }
@@ -83,7 +84,6 @@ const Signin = (props) => {
         <Link 
           component={RouterLink} 
           to='/authors/signup' 
-          underline='hover' 
           sx={{ alignSelf: 'flex-end', fontSize: '12px' }}
         >Signup</Link>
       </Stack>
