@@ -14,12 +14,14 @@ const Signup = (props) => {
   const [ name, setName ] = useState('')
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
+  const [ loading, setLoading ] = useState(false)
 
   const dispatch = useDispatch()
   const handleSignup = async (ev) => {
     ev.preventDefault()
     const signupInfo = { name, email, password }
     try {
+      setLoading(true)
       const response = await authorService.signup(signupInfo) 
       const { data } = response
       dispatch(notify({ message: data.message, _status: 'success' }))
@@ -28,6 +30,8 @@ const Signup = (props) => {
     } catch (err) {
       const { message } = errorMessage(err)
       dispatch(notify({ message, _status: 'error' }))
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -47,7 +51,12 @@ const Signup = (props) => {
         <TextField size='small' name='name' autoFocus value={name} onChange={handleChange} />
         <TextField size='small' name='email' value={email}  onChange={handleChange} />
         <TextField type='password' name='password' size='small' value={password} onChange={handleChange} />
-        <LoadingButton type='submit' variant='contained'>s</LoadingButton>
+        <LoadingButton 
+          type='submit' 
+          variant='contained'
+          loading={loading}
+          loadingIndicator={'loading...'}
+        >Signup</LoadingButton>
       </Stack>
     </form>
   );
