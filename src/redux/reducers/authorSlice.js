@@ -9,7 +9,7 @@ const authorSlice = createSlice({
   name: 'author',
   initialState,
   reducers: {
-    signup: (state, action) => {
+    saveUserInfo: (state, action) => {
       state.author = action.payload
     },
     loginFromStorage: (state, action) => {
@@ -18,7 +18,7 @@ const authorSlice = createSlice({
   }
 })
 
-export const { signup, loginFromStorage } = authorSlice.actions
+export const { saveUserInfo, loginFromStorage } = authorSlice.actions
 
 export default authorSlice.reducer
 
