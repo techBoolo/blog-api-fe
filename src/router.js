@@ -5,6 +5,9 @@ import Author from './pages/Author/index.js'
 import Signup from './pages/Author/Signup/index.js'
 import Signin from './pages/Author/Signin/index.js'
 
+import Post from './pages/Post/index.js'
+import New from './pages/Post/New/index.js'
+
 export default createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
@@ -12,6 +15,10 @@ export default createBrowserRouter(
       <Route path='authors' element={<Author />}>
         <Route path='signup' element={<Signup />} />
         <Route path='signin' element={<Signin />} />
+      </Route>
+      <Route path='posts' element={<Post />}>
+        <Route index element={<Home />} />
+        <Route path='new' element={<New />} />
       </Route>
     </Route>
   )
