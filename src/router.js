@@ -7,6 +7,8 @@ import Signin from './pages/Author/Signin/index.js'
 
 import Post from './pages/Post/index.js'
 import New from './pages/Post/New/index.js'
+import ShowPost from './pages/Post/ShowPost/index.js'
+import EditPost from './pages/Post/EditPost/index.js'
 
 export default createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +21,8 @@ export default createBrowserRouter(
       <Route path='posts' element={<Post />}>
         <Route index element={<Home />} />
         <Route path='new' element={<New />} />
+        <Route path=':id' element={<ShowPost />} />
+        <Route path=':id/edit' element={<EditPost />} />
       </Route>
     </Route>
   )
