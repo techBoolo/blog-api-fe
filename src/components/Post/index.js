@@ -18,11 +18,11 @@ const Post = ({ post }) => {
         <Link underline='hover' variant='body2' component={RouterLink} to={`/posts/${post.id}`}>more ...</Link>
         <Typography variant='caption'>{ post.author.name }</Typography>
         <Typography variant='caption'>
-          { new Date(post.date).toLocaleString(undefined, { dateStyle: 'short' }) }
+          { new Date(post.date).toLocaleString('am-ET', { dateStyle: 'short' }) }
         </Typography>
         { post.date !== post.updatedAt && 
           <Typography variant='caption'>
-            updated: { new Date(post.updatedAt).toLocaleString(undefined, { dateStyle: 'short' }) }
+            updated: { new Date(post.updatedAt).toLocaleString('am-ET', { dateStyle: 'short', timeStyle: 'short', hour12: false }) }
           </Typography> 
         }
       </Stack>

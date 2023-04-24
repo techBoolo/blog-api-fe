@@ -24,15 +24,15 @@ const Show = (props) => {
       <Stack mb={2}>
         <Typography variant='caption'>{ post.author.name }</Typography>
         <Typography variant='caption'>
-          { new Date(post.date).toLocaleString(undefined, { dateStyle: 'short' }) }
+          { new Date(post.date).toLocaleString('am-ET', { dateStyle: 'short' }) }
         </Typography>
         { post.date !== post.updatedAt && 
           <Typography variant='caption'>
-            updated: { new Date(post.updatedAt).toLocaleString(undefined, { dateStyle: 'short' }) }
+            updated: { new Date(post.updatedAt).toLocaleString('am-ET', { dateStyle: 'short', timeStyle: 'short', hour12: false }) }
           </Typography> 
         }
         { post.author_id === author?.id && 
-            <Link sx={{ alignSelf: 'flex-start', backgroundColor: 'green', borderRadius: '5px', padding: '0.1rem 0.6rem', color: 'white' }} underline='none' variant='caption' component={RouterLink} to={`/posts/${post.id}/edit`}>edit</Link>
+            <Link sx={{ alignSelf: 'flex-start', backgroundColor: 'green', borderRadius: '5px', padding: '0.1rem 0.6rem', color: 'white' }} underline='none' variant='caption' state={ post } component={RouterLink} to={`/posts/${post.id}/edit`}>edit</Link>
         }
       </Stack>
       <Typography variant='h6' sx={{  textAlign: 'center', mb: '1rem' }}>{ post.title }</Typography>
