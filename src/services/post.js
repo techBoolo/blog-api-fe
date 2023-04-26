@@ -32,9 +32,18 @@ const updatePost = async (updateData, { token }) => {
   )
 }
 
+const deletePost = async ({ id, token }) => {
+  config.headers.authentication = `bearer ${token}`
+  return await axios.delete(
+    `${backend_root_url}/posts/${id}`, 
+    config 
+  )
+}
+
 export default {
   fetchPosts,
   fetchPost,
   createPost,
   updatePost,
+  deletePost,
 }

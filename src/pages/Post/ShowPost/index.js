@@ -1,16 +1,26 @@
-import { useParams, Link as RouterLink } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useState, useEffect } from 'react'
+import { useParams, Link as RouterLink, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import errorMessage from '../../../utils/errorMessage.js'
+import postService from '../../../services/post.js'
+import { notify } from '../../../redux/reducers/notificationSlice.js'
+import { removePost } from '../../../redux/reducers/postSlice.js'
 
+import DialogComp from '../../../components/DialogComp/index.js'
 import Box  from '@mui/material/Box'
+import Button  from '@mui/material/Button'
 import Typography  from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import Link from '@mui/material/Link'
 
 const Show = (props) => {
+  const [ showDialog, setShowDialog ] = useState(false)
   const params = useParams()
   const { id } = params
   const { author } = useSelector(state => state.author)
   const post = useSelector(state => state.post.posts.find(p => p.id === id))
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   if(!post) {
     return (
@@ -18,6 +28,24 @@ const Show = (props) => {
         <Typography variant='h6'>Nothing found.</Typography>
       </Box>
     )
+  }
+  const handleDelete = () => {
+    setShowDialog(true)
+  }
+  const handleConfirm = async () => {
+     try {
+       const response = await postService.deletePost({ id, token: author.token }) 
+       dispatch(removePost({ id: response.data.id }))
+       navigate('/posts')
+     } catch (err) {
+       const { message } = errorMessage(err)
+       dispatch(notify({ message, _status: 'error' }))
+     }finally {
+      setShowDialog(false)
+     }
+  }
+  const handleCancel = () => {
+    setShowDialog(false)
   }
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -31,12 +59,27 @@ const Show = (props) => {
             updated: { new Date(post.updatedAt).toLocaleString('am-ET', { dateStyle: 'short', timeStyle: 'short', hour12: false }) }
           </Typography> 
         }
-        { post.author_id === author?.id && 
-            <Link sx={{ alignSelf: 'flex-start', backgroundColor: 'green', borderRadius: '5px', padding: '0.1rem 0.6rem', color: 'white' }} underline='none' variant='caption' state={ post } component={RouterLink} to={`/posts/${post.id}/edit`}>edit</Link>
+        <Box sx={{ display: 'flex', gap: '5px'}}>
+        { (post.author_id === author?.id || author?.admin ) && 
+            <Link sx={{ backgroundColor: 'green', borderRadius: '5px', padding: '0.1rem 0.6rem', color: 'white' }} underline='none' variant='caption' state={ post } component={RouterLink} to={`/posts/${post.id}/edit`}>edit</Link>
         }
+        { author?.admin && 
+            <Link sx={{ '&:hover': { backgroundColor: 'red' }, textTransform: 'none', backgroundColor: 'red', borderRadius: '5px', padding: '0.1rem 0rem', color: 'white' }} underline='none' variant='caption' component={Button} onClick={handleDelete}>delete</Link>
+        }
+        </Box>
       </Stack>
       <Typography variant='h6' sx={{  textAlign: 'center', mb: '1rem' }}>{ post.title }</Typography>
       <Typography variant='body1' >{ post.content }</Typography>
+      <DialogComp 
+        show={showDialog} 
+        setShow={setShowDialog} 
+        title={'Delete confirmation'}
+        content={'Confirm delete operation'}
+        text1={'Delete'}
+        text2={'Cancel'}
+        handleText1={handleConfirm}
+        handleText2={handleCancel}
+      />
     </Box>
   );
 };
