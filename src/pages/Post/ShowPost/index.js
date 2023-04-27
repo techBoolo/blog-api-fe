@@ -4,9 +4,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import errorMessage from '../../../utils/errorMessage.js'
 import postService from '../../../services/post.js'
 import { notify } from '../../../redux/reducers/notificationSlice.js'
-import { removePost } from '../../../redux/reducers/postSlice.js'
+import { removePost, setPost } from '../../../redux/reducers/postSlice.js'
 
 import DialogComp from '../../../components/DialogComp/index.js'
+import Comment from '../../../components/Comment/'
 import Box  from '@mui/material/Box'
 import Button  from '@mui/material/Button'
 import Typography  from '@mui/material/Typography'
@@ -18,17 +19,23 @@ const Show = (props) => {
   const params = useParams()
   const { id } = params
   const { author } = useSelector(state => state.author)
-  const post = useSelector(state => state.post.posts.find(p => p.id === id))
+  const { post } = useSelector(state => state.post)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  if(!post) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: '2rem'}}>
-        <Typography variant='h6'>Nothing found.</Typography>
-      </Box>
-    )
-  }
+  useEffect(() => {
+    const getPost = async () => {
+      try {
+        const response = await postService.fetchPost({ id })
+        const { data } = response
+        dispatch(setPost(data)) 
+      } catch (err) {
+        const { message } = errorMessage(err)
+        dispatch(notify({ message, _status: 'error' }))
+      }
+    }
+    getPost()
+  }, [])
   const handleDelete = () => {
     setShowDialog(true)
   }
@@ -46,6 +53,14 @@ const Show = (props) => {
   }
   const handleCancel = () => {
     setShowDialog(false)
+  }
+
+  if(!post) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: '2rem'}}>
+        <Typography variant='h6'>Nothing found.</Typography>
+      </Box>
+    )
   }
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -70,6 +85,23 @@ const Show = (props) => {
       </Stack>
       <Typography variant='h6' sx={{  textAlign: 'center', mb: '1rem' }}>{ post.title }</Typography>
       <Typography variant='body1' >{ post.content }</Typography>
+      { /* add new comment form */ }
+
+      {/* comment */}
+        <Box sx={{ my: '1rem', borderTop: '1px solid #ccc', pt: '1rem'  }}>
+          {
+            post.comments.length > 0 
+            ?  <Typography sx={{ mb: '1rem' }}>comments:</Typography>
+            : <Typography>no comment yet, </Typography>
+          }
+          {
+            post.comments.map(comment => (
+              <Comment comment={comment} />
+            ))
+          }
+        </Box>
+
+      { /* delete confirmation dialog */ }
       <DialogComp 
         show={showDialog} 
         setShow={setShowDialog} 
