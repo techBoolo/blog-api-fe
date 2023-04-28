@@ -6,6 +6,7 @@ import postService from '../../../services/post.js'
 import { notify } from '../../../redux/reducers/notificationSlice.js'
 import { removePost, setPost } from '../../../redux/reducers/postSlice.js'
 
+import CommentForm from '../../../components/CommentForm/'
 import DialogComp from '../../../components/DialogComp/index.js'
 import Comment from '../../../components/Comment/'
 import Box  from '@mui/material/Box'
@@ -86,6 +87,7 @@ const Show = (props) => {
       <Typography variant='h6' sx={{  textAlign: 'center', mb: '1rem' }}>{ post.title }</Typography>
       <Typography variant='body1' >{ post.content }</Typography>
       { /* add new comment form */ }
+      <CommentForm />
 
       {/* comment */}
         <Box sx={{ my: '1rem', borderTop: '1px solid #ccc', pt: '1rem'  }}>
@@ -96,7 +98,7 @@ const Show = (props) => {
           }
           {
             post.comments.map(comment => (
-              <Comment comment={comment} />
+              <Comment key={comment.id} comment={comment} />
             ))
           }
         </Box>

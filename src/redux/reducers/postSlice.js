@@ -24,12 +24,16 @@ const postSlice = createSlice({
     },
     setPost: (state, action) => {
       state.post = action.payload
+    },
+    addComment: (state, action) => {
+      state.post.comments.push(action.payload)
     }
   }
 })
 
 export const { fetchPosts, addPost, updatePost, removePost ,
   setPost,
+  addComment,
 } = postSlice.actions
 
 export default postSlice.reducer
