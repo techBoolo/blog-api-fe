@@ -17,6 +17,7 @@ import Link from '@mui/material/Link'
 
 const Show = (props) => {
   const [ showDialog, setShowDialog ] = useState(false)
+  const [ edit, setEdit ] = useState({})
   const params = useParams()
   const { id } = params
   const { author } = useSelector(state => state.author)
@@ -93,12 +94,12 @@ const Show = (props) => {
         <Box sx={{ my: '1rem', borderTop: '1px solid #ccc', pt: '1rem'  }}>
           {
             post.comments.length > 0 
-            ?  <Typography sx={{ mb: '1rem' }}>comments:</Typography>
+            ?  <Typography variant='h6' sx={{ mb: '1rem', textDecoration: 'underline' }}>comments:</Typography>
             : <Typography>no comment yet, </Typography>
           }
           {
             post.comments.map(comment => (
-              <Comment key={comment.id} comment={comment} />
+              <Comment key={comment.id} comment={comment} setEdit={setEdit} edit={edit} />
             ))
           }
         </Box>

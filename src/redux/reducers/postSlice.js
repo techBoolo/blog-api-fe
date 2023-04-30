@@ -27,13 +27,23 @@ const postSlice = createSlice({
     },
     addComment: (state, action) => {
       state.post.comments.push(action.payload)
-    }
+    },
+    updatePostComment: (state, action) => {
+      state.post.comments = state.post.comments.map(comment => {
+        if(comment.id == action.payload.id) {
+          return action.payload
+        } else {
+          return comment
+        }
+      })
+    },
   }
 })
 
 export const { fetchPosts, addPost, updatePost, removePost ,
   setPost,
   addComment,
+  updatePostComment,
 } = postSlice.actions
 
 export default postSlice.reducer

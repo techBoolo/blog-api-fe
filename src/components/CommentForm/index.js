@@ -35,6 +35,7 @@ const CommentForm = (props) => {
       setLoading(true)
       const response = await commentService.createComment(comment, { token: author.token }) 
       const { data } = response
+      setContent('')
       dispatch(addComment(data))
     } catch (err) {
       const { message } = errorMessage(err)

@@ -14,6 +14,15 @@ const createComment = async (newComment, { token }) => {
   )
 }
 
+const updateComment = async ({ id, content }, { token }) => {
+  config.headers.authentication = `bearer ${token}`
+  return await axios.patch(
+    `${backend_root_url}/comments/${id}`,
+    { content },
+    config
+  )
+}
 export default {
-  createComment
+  createComment,
+  updateComment,
 }
