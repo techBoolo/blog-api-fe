@@ -37,6 +37,11 @@ const postSlice = createSlice({
         }
       })
     },
+    removePostComment: (state, action) => {
+      state.post.comments = state.post.comments.filter(comment => {
+        return comment.id !== action.payload.id
+      })
+    },
   }
 })
 
@@ -44,6 +49,7 @@ export const { fetchPosts, addPost, updatePost, removePost ,
   setPost,
   addComment,
   updatePostComment,
+  removePostComment,
 } = postSlice.actions
 
 export default postSlice.reducer

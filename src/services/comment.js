@@ -22,7 +22,17 @@ const updateComment = async ({ id, content }, { token }) => {
     config
   )
 }
+
+const deleteComment = async ({ id }, { token }) => {
+  config.headers.authentication = `bearer ${token}`
+  return await axios.delete(
+    `${backend_root_url}/comments/${id}`,
+    config
+  )
+}
+
 export default {
   createComment,
   updateComment,
+  deleteComment,
 }
