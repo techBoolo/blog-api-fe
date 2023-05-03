@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, Navigate } from 'react-router-dom'
 import { notify } from '../../../redux/reducers/notificationSlice.js'
 import { updatePost } from '../../../redux/reducers/postSlice.js'
 import postService from '../../../services/post.js'
@@ -10,7 +10,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
-import  Button from '@mui/material/Button'
+import Button from '@mui/material/Button'
 import LoadingButton from '@mui/lab/LoadingButton'
 
 const Edit = (props) => {
@@ -56,6 +56,11 @@ const Edit = (props) => {
     } finally {
       setLoading(false)
     }
+  }
+  if(!author) {
+    return (
+      <Navigate to={`/posts`} replace={true} />
+    )
   }
   return (
     <Box sx={{ margin: '3rem auto', maxWidth: '60ch', border: '1px solid #ccc', padding: '1rem' }}>

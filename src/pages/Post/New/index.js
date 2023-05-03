@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import { notify } from '../../../redux/reducers/notificationSlice.js'
 import { addPost } from '../../../redux/reducers/postSlice.js'
 import postService from '../../../services/post.js'
@@ -45,6 +45,12 @@ const NewPost = (props) => {
     } else if(ev.target.name === 'content') {
       setContent(ev.target.value)
     }
+  }
+
+  if(!author) {
+    return (
+      <Navigate to='/' replace={true} />
+    )
   }
 
   return (
