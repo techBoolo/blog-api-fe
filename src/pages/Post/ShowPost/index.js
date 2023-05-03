@@ -86,9 +86,9 @@ const Show = (props) => {
         </Box>
       </Stack>
       <Typography variant='h6' sx={{  textAlign: 'center', mb: '1rem' }}>{ post.title }</Typography>
-      <Typography variant='body1' >{ post.content }</Typography>
+      <Typography variant='body1' sx={{ mb: '1rem' }} >{ post.content }</Typography>
       { /* add new comment form */ }
-      <CommentForm />
+      { author ? <CommentForm /> : <Link component={RouterLink} to='/authors/signin' sx={{ color: 'red' }}>Login to add a comment</Link> }
 
       {/* comment */}
         <Box sx={{ my: '1rem', borderTop: '1px solid #ccc', pt: '1rem'  }}>

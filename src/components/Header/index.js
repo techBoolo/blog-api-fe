@@ -17,7 +17,7 @@ const Header = (props) => {
       <Box sx={{ display: 'flex', gap: '5px' }}>
       { !isHome && <Link component={RouterLink} to='/'>home /</Link> }
       { !author && !isSigninPage && <Link component={RouterLink} to='/authors/signin'>login /</Link> }
-      { !isNewPost && <Link component={RouterLink} to='/posts/new'>add</Link> }
+      { author && !isNewPost && <Link component={RouterLink} to='/posts/new'>add</Link> }
       </Box>
     </Box>
   );

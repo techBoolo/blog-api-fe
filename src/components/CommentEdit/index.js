@@ -5,9 +5,7 @@ import { notify } from '../../redux/reducers/notificationSlice.js'
 import { updatePostComment } from '../../redux/reducers/postSlice.js'
 import commentService from '../../services/comment.js'
 
-import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import LoadingButton from '@mui/lab/LoadingButton'
@@ -19,14 +17,14 @@ const CommentEdit = ({ comment, edit, setEdit }) => {
   const dispatch = useDispatch()
 
   const handleTextChange = (ev) => {
-    if(ev.target.name == 'content') {
+    if(ev.target.name === 'content') {
       setComm({...comm, content: ev.target.value })
     }
   }
 
   const updateComment = async (ev) => {
     ev.preventDefault()
-    const { post_id, id, content } = comm
+    const { id, content } = comm
     try {
       setLoading(true)
       const response = await commentService.updateComment({ id, content }, { token: author.token}) 
@@ -45,7 +43,6 @@ const CommentEdit = ({ comment, edit, setEdit }) => {
   }
   return (
     <Box component='form' onSubmit={updateComment} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-      <Typography>Edit</Typography>
       <TextField
         name='content'
         multiline
@@ -58,13 +55,14 @@ const CommentEdit = ({ comment, edit, setEdit }) => {
       />
     <Box sx={{ }}>
       <LoadingButton 
-        sx={{ my: '0.5rem', px: '1rem' }} 
+        sx={{ my: '0.5rem', mr: '0.5rem', px: '1rem', textTransform: 'none' }} 
         size='small' 
+        variant='outlined'
         loading={loading} 
         loadingIndicator='updating...'
         type='submit'
       >Update</LoadingButton>
-      <Button onClick={handleCancel}>Cancel</Button>
+      <Button onClick={handleCancel} sx={{ textTransform: 'none' }}>Cancel</Button>
     </Box>
     </Box>
   );

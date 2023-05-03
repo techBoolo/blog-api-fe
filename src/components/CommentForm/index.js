@@ -57,6 +57,7 @@ const CommentForm = (props) => {
           multiline
           minRows={3}
           maxRows={5}
+          value={content}
           onChange={handleTextChange}
         />
         <LoadingButton 

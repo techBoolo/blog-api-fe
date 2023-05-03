@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link as RouterLink } from 'react-router-dom'
 import errorMessage from '../../utils/errorMessage.js'
 import { notify } from '../../redux/reducers/notificationSlice.js'
 import { removePostComment } from '../../redux/reducers/postSlice.js'
@@ -10,8 +9,6 @@ import CommentEdit from '../CommentEdit/'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Link from '@mui/material/Link'
 import Divider from '@mui/material/Divider'
 
 import IconButton from '@mui/material/IconButton'
@@ -48,22 +45,16 @@ const Comment = ({ comment, edit, setEdit }) => {
     } catch (err) {
       const { message } = errorMessage(err)
       dispatch(notify({ message, _status: 'error' }))
-    } finally {
-
-    }
+    } 
   }
   return (
     <>
       <Stack mb={2} py={1}>
         <Typography>{ comment.content }</Typography>
-        {  (author?.admin || ( author?.id === comment.author.id )) && 
-          <Link component={Button} onClick={() => handleEdit(comment)} underline='none' variant='caption'
-            sx={{ '&:hover': { backgroundColor: 'green' }, backgroundColor: 'green',  textTransform: 'none', padding: '0.1rem 0.0rem', color: 'white', alignSelf: 'start', mt: '1em' }}
-          >edit</Link>
-        }
         {(author?.admin || ( author?.id === comment.author.id )) && 
           <IconButton 
-            sx={{ fontSize: '10px', alignSelf: 'start', borderRadius: '5px', padding: '2px', mt: '1rem' }}
+            disableRipple
+            sx={{ fontSize: '10px', alignSelf: 'start', borderRadius: '5px', padding: '2px',  mt: '1rem' }}
             onClick={openActionsMenu}
           >actions<ArrowDropDownIcon />
           </IconButton>
@@ -74,12 +65,16 @@ const Comment = ({ comment, edit, setEdit }) => {
         <Box sx={{ alignSelf: 'flex-end', display: 'flex', flexDirection: 'column' }}>
           <Typography variant='caption'>{comment.author.name}</Typography>
           <Typography variant='caption'>
-            {new Date(comment.date).toLocaleString('am-ET', { dateStyle: 'short' })} @ 
+            {new Date(comment.date).toLocaleString('am-ET', { dateStyle: 'short' })}
+            {' @'}
             {new Date(comment.date).toLocaleString('am-ET', { timeStyle: 'short', hour12: false })}
           </Typography>
           { comment.date !== comment.updatedAt && 
             <Typography variant='caption'> 
-              updated:  { new Date(comment.updatedAt).toLocaleString('am-ET', { dateStyle: 'short' }) } @ { new Date(comment.updatedAt).toLocaleString('am-ET', { timeStyle: 'short', hour12: false })}
+              updated:  
+              { new Date(comment.updatedAt).toLocaleString('am-ET', { dateStyle: 'short' }) } 
+              {' @'} 
+              { new Date(comment.updatedAt).toLocaleString('am-ET', { timeStyle: 'short', hour12: false })}
             </Typography>
           }
         </Box>

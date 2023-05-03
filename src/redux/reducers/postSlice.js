@@ -30,7 +30,7 @@ const postSlice = createSlice({
     },
     updatePostComment: (state, action) => {
       state.post.comments = state.post.comments.map(comment => {
-        if(comment.id == action.payload.id) {
+        if(comment.id === action.payload.id) {
           return action.payload
         } else {
           return comment
