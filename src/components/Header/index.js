@@ -10,9 +10,9 @@ const Header = (props) => {
   const isSigninPage = useMatch('/authors/signin')
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '10px', borderBottom: '1px solid #ddd', mb: '1rem' }}>
       <Box>
-        <Link component={RouterLink} to='/'>Lo</Link>
+        <Link component={RouterLink} to='/'>Blog</Link>
       </Box>
       <Box sx={{ display: 'flex', gap: '5px' }}>
       { !isHome && <Link component={RouterLink} to='/'>home /</Link> }
